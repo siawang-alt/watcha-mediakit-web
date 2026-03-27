@@ -35,49 +35,78 @@ function Counter({ end, suffix = '', duration = 2000 }: { end: number; suffix?: 
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-/* ─── Product Card ─── */
-function ProductCard({ product, accent }: { product: Product; accent: 'watcha' | 'pedia' }) {
+/* ─── Product Modal ─── */
+function ProductModal({ product, accent, onClose }: { product: Product; accent: 'watcha' | 'pedia'; onClose: () => void }) {
   const borderColor = accent === 'watcha' ? 'border-watcha' : 'border-pedia';
   const tagBg = accent === 'watcha' ? 'bg-watcha' : 'bg-pedia';
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group">
-      <div className="overflow-hidden bg-gray-100">
-        <Image
-          src={product.image}
-          alt={product.name}
-          width={400}
-          height={300}
-          className="w-full h-48 object-contain group-hover:scale-105 transition-transform duration-500 p-2"
-        />
-      </div>
-      <div className={`p-6 border-t-4 ${borderColor}`}>
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-bold text-gray-900">{product.name}</h3>
-          <span className={`${tagBg} text-white text-xs px-2.5 py-1 rounded-full font-medium`}>{product.tag}</span>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="relative bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+          <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+        <div className="bg-gray-50 p-6 rounded-t-2xl">
+          <Image src={product.image} alt={product.name} width={800} height={600} className="w-full h-auto object-contain" />
         </div>
-        <p className="text-gray-600 text-sm mb-4 leading-relaxed">{product.description}</p>
-        <div className="flex gap-3 mb-4">
-          {product.impressions !== '-' && (
-            <div className="bg-gray-50 rounded-lg px-3 py-2 text-center flex-1">
-              <div className="text-xs text-gray-500">예상 노출수</div>
-              <div className="font-bold text-gray-900">{product.impressions}</div>
-            </div>
-          )}
-          {product.ctr !== '-' && (
-            <div className="bg-gray-50 rounded-lg px-3 py-2 text-center flex-1">
-              <div className="text-xs text-gray-500">예상 CTR</div>
-              <div className="font-bold text-gray-900">{product.ctr}</div>
-            </div>
-          )}
+        <div className={`p-8 border-t-4 ${borderColor}`}>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-2xl font-bold text-gray-900">{product.name}</h3>
+            <span className={`${tagBg} text-white text-sm px-3 py-1 rounded-full font-medium`}>{product.tag}</span>
+          </div>
+          <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+          <div className="flex gap-4 mb-6">
+            {product.impressions !== '-' && (
+              <div className="bg-gray-50 rounded-xl px-5 py-3 text-center flex-1">
+                <div className="text-xs text-gray-500 mb-1">예상 노출수</div>
+                <div className="text-xl font-bold text-gray-900">{product.impressions}</div>
+              </div>
+            )}
+            {product.ctr !== '-' && (
+              <div className="bg-gray-50 rounded-xl px-5 py-3 text-center flex-1">
+                <div className="text-xs text-gray-500 mb-1">예상 CTR</div>
+                <div className="text-xl font-bold text-gray-900">{product.ctr}</div>
+              </div>
+            )}
+          </div>
+          <div className="space-y-3 text-sm text-gray-600">
+            <div className="flex items-start gap-3"><span className="text-base">📍</span><div><span className="font-medium text-gray-900">노출 위치</span><br/>{product.location}</div></div>
+            <div className="flex items-start gap-3"><span className="text-base">🎯</span><div><span className="font-medium text-gray-900">구좌</span><br/>{product.slots}</div></div>
+            <div className="flex items-start gap-3"><span className="text-base">📱</span><div><span className="font-medium text-gray-900">디바이스</span><br/>{product.device}</div></div>
+            <div className="flex items-start gap-3"><span className="text-base">🎨</span><div><span className="font-medium text-gray-900">소재</span><br/>{product.material}</div></div>
+          </div>
+          <a href="#contact" onClick={onClose} className={`block text-center mt-6 ${tagBg} hover:opacity-90 text-white font-semibold py-3 rounded-xl transition-opacity`}>
+            이 상품 문의하기
+          </a>
         </div>
-        <ul className="text-xs text-gray-500 space-y-1">
-          <li>📍 {product.location}</li>
-          <li>🎯 {product.slots}</li>
-          <li>📱 {product.device}</li>
-        </ul>
       </div>
     </div>
+  );
+}
+
+/* ─── Product Card ─── */
+function ProductCard({ product, accent }: { product: Product; accent: 'watcha' | 'pedia' }) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const borderColor = accent === 'watcha' ? 'border-watcha' : 'border-pedia';
+  const tagBg = accent === 'watcha' ? 'bg-watcha' : 'bg-pedia';
+
+  return (
+    <>
+      <div
+        className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer group"
+        onClick={() => setModalOpen(true)}
+      >
+        <div className={`p-6 border-t-4 ${borderColor}`}>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-lg font-bold text-gray-900">{product.name}</h3>
+            <span className={`${tagBg} text-white text-xs px-2.5 py-1 rounded-full font-medium`}>{product.tag}</span>
+          </div>
+          <p className="text-gray-600 text-sm leading-relaxed">{product.description}</p>
+        </div>
+      </div>
+      {modalOpen && <ProductModal product={product} accent={accent} onClose={() => setModalOpen(false)} />}
+    </>
   );
 }
 
@@ -136,7 +165,7 @@ export default function Home() {
       {/* ── Header ── */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className={`text-xl font-bold ${scrolled ? 'text-watcha' : 'text-white'}`}>WATCHA</span>
+          <Image src={scrolled ? '/watcha-mediakit-web/images/watcha_logo.png' : '/watcha-mediakit-web/images/watcha_logo_white.png'} alt="WATCHA" width={120} height={28} className="h-7 w-auto" />
           <nav className="hidden md:flex items-center gap-8">
             {[
               ['플랫폼 소개', '#platform'],
@@ -182,7 +211,7 @@ export default function Home() {
               { end: 400, suffix: '만+', label: '통합 MAU' },
               { end: 7.5, suffix: '억+', label: '누적 별점', isDecimal: true },
               { end: 77, suffix: '%', label: '20~30대 비율' },
-              { end: 94, suffix: '%', label: '유료 구독자' },
+              { end: 1000, suffix: '만+', label: '전체 가입자' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-3xl md:text-5xl font-bold text-watcha">
@@ -212,14 +241,14 @@ export default function Home() {
                 <span className="text-gray-500 text-sm">OTT 스트리밍</span>
               </div>
               <div className="grid grid-cols-2 gap-4 mb-6">
-                {[['MAU','약 100만'],['일간 방문','약 3회'],['일일 체류','약 2시간'],['유료 구독자','94%']].map(([l,v]) => (
+                {[['MAU','약 100만'],['일간 방문','약 3회'],['일일 체류','약 2시간'],['전체 가입자','1,000만+']].map(([l,v]) => (
                   <div key={l} className="bg-gray-50 rounded-xl p-4">
                     <div className="text-xs text-gray-500">{l}</div>
                     <div className="text-lg font-bold text-gray-900">{v}</div>
                   </div>
                 ))}
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">MZ세대가 매일 3번씩 방문하여 2시간씩 머무르는 프리미엄 OTT. 유료 구독자 94%의 높은 구매력을 가진 유저 집단입니다.</p>
+              <p className="text-gray-600 text-sm leading-relaxed">MZ세대가 매일 3번씩 방문하여 2시간씩 머무르는 프리미엄 OTT. 전체 가입자 1,000만 이상의 대규모 유저 집단입니다.</p>
             </div>
             {/* WATCHA PEDIA */}
             <div className="rounded-2xl border-2 border-gray-100 p-8 hover:border-pedia/30 transition-colors">
@@ -247,9 +276,9 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">왜 왓챠에 광고해야 할까요?</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: '👥', title: '프리미엄 오디언스', desc: '94%가 유료 구독자. 높은 구매력의 MZ세대가 집중된 프리미엄 유저 집단입니다.' },
+              { icon: '👥', title: '프리미엄 오디언스', desc: '전체 가입자 1,000만 이상. 높은 구매력의 MZ세대가 집중된 대규모 유저 집단입니다.' },
               { icon: '⏱️', title: '높은 몰입도', desc: '하루 평균 2시간 체류, 주 12.2회 재방문. 업계 최고 수준의 충성도를 보여줍니다.' },
-              { icon: '📈', title: '검증된 광고 성과', desc: 'CTR 최대 2.9%. 콘텐츠에 몰입한 유저에게 자연스럽게 브랜드를 노출합니다.' },
+              { icon: '🎬', title: '다양한 업종 커버', desc: '영화, 드라마, 뷰티, 식음료, 가전, 도서, 패션 등 다양한 업종의 광고주가 왓챠와 함께하고 있습니다.' },
             ].map((item) => (
               <div key={item.title} className="text-center p-8">
                 <div className="text-5xl mb-6">{item.icon}</div>
@@ -362,7 +391,7 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="bg-black py-8">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
-          <span className="text-watcha font-bold text-lg">WATCHA</span>
+          <Image src="/watcha-mediakit-web/images/watcha_logo.png" alt="WATCHA" width={100} height={24} className="h-6 w-auto" />
           <span className="text-gray-600 text-sm mt-2 md:mt-0">© 2026 WATCHA. 광고사업팀</span>
         </div>
       </footer>
