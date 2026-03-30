@@ -36,7 +36,7 @@ function Counter({ end, suffix = '', duration = 2000 }: { end: number; suffix?: 
 }
 
 /* ─── Product Modal ─── */
-function ProductModal({ product, accent, onClose }: { product: Product; accent: 'watcha' | 'pedia'; onClose: () => void }) {
+function ProductModal({ product, accent, onClose, onInquiry }: { product: Product; accent: 'watcha' | 'pedia'; onClose: () => void; onInquiry: (name: string) => void }) {
   const borderColor = accent === 'watcha' ? 'border-watcha' : 'border-pedia';
   const tagBg = accent === 'watcha' ? 'bg-watcha' : 'bg-pedia';
 
@@ -76,7 +76,7 @@ function ProductModal({ product, accent, onClose }: { product: Product; accent: 
             <div className="flex items-start gap-3"><span className="text-base">📱</span><div><span className="font-medium text-gray-900">디바이스</span><br/>{product.device}</div></div>
             <div className="flex items-start gap-3"><span className="text-base">🎨</span><div><span className="font-medium text-gray-900">소재</span><br/>{product.material}</div></div>
           </div>
-          <a href="#contact" onClick={onClose} className={`block text-center mt-6 ${tagBg} hover:opacity-90 text-white font-semibold py-3 rounded-xl transition-opacity`}>
+          <a href="#contact" onClick={() => { onInquiry(product.name); onClose(); }} className={`block text-center mt-6 ${tagBg} hover:opacity-90 text-white font-semibold py-3 rounded-xl transition-opacity cursor-pointer`}>
             이 상품 문의하기
           </a>
         </div>
@@ -86,7 +86,7 @@ function ProductModal({ product, accent, onClose }: { product: Product; accent: 
 }
 
 /* ─── Product Card ─── */
-function ProductCard({ product, accent }: { product: Product; accent: 'watcha' | 'pedia' }) {
+function ProductCard({ product, accent, onInquiry }: { product: Product; accent: 'watcha' | 'pedia'; onInquiry: (name: string) => void }) {
   const [modalOpen, setModalOpen] = useState(false);
   const borderColor = accent === 'watcha' ? 'border-watcha' : 'border-pedia';
   const tagBg = accent === 'watcha' ? 'bg-watcha' : 'bg-pedia';
@@ -102,10 +102,14 @@ function ProductCard({ product, accent }: { product: Product; accent: 'watcha' |
             <h3 className="text-lg font-bold text-gray-900">{product.name}</h3>
             <span className={`${tagBg} text-white text-xs px-2.5 py-1 rounded-full font-medium`}>{product.tag}</span>
           </div>
-          <p className="text-gray-600 text-sm leading-relaxed">{product.description}</p>
+          <p className="text-gray-600 text-sm leading-relaxed mb-3">{product.description}</p>
+          <span className={`inline-flex items-center gap-1 text-xs font-medium ${accent === 'watcha' ? 'text-watcha' : 'text-pedia'} group-hover:underline`}>
+            자세히 보기
+            <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          </span>
         </div>
       </div>
-      {modalOpen && <ProductModal product={product} accent={accent} onClose={() => setModalOpen(false)} />}
+      {modalOpen && <ProductModal product={product} accent={accent} onClose={() => setModalOpen(false)} onInquiry={onInquiry} />}
     </>
   );
 }
@@ -136,6 +140,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [inquiry, setInquiry] = useState('');
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -204,7 +209,7 @@ export default function Home() {
             콘텐츠 매니아 <span className="text-watcha">400만</span>에게<br />다가가는 가장 확실한 방법
           </h1>
           <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-            왓챠 + 왓챠피디아, 두 플랫폼의 프리미엄 유저에게 브랜드를 전달하세요.
+            왓챠 & 왓챠피디아, 두 플랫폼의 프리미엄 유저에게 브랜드를 전달하세요.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {[
@@ -299,7 +304,7 @@ export default function Home() {
           </div>
           <p className="text-gray-500 text-center mb-12">앱 진입 시 높은 주목도, 브랜딩에 최적화된 상품</p>
           <div className="grid md:grid-cols-3 gap-8">
-            {watchaProducts.map((p) => <ProductCard key={p.name} product={p} accent="watcha" />)}
+            {watchaProducts.map((p) => <ProductCard key={p.name} product={p} accent="watcha" onInquiry={(name) => setInquiry(`[왓챠 - ${name}] 상품에 대해 문의드립니다.\n\n`)} />)}
           </div>
         </div>
       </section>
@@ -313,7 +318,7 @@ export default function Home() {
           </div>
           <p className="text-gray-500 text-center mb-12">높은 방문 빈도, 다양한 지면에 노출되는 상품</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pediaProducts.map((p) => <ProductCard key={p.name} product={p} accent="pedia" />)}
+            {pediaProducts.map((p) => <ProductCard key={p.name} product={p} accent="pedia" onInquiry={(name) => setInquiry(`[왓챠피디아 - ${name}] 상품에 대해 문의드립니다.\n\n`)} />)}
           </div>
         </div>
       </section>
@@ -360,7 +365,7 @@ export default function Home() {
                     <option>전환/가입</option>
                     <option>이벤트 참여</option>
                   </select>
-                  <textarea name="message" rows={4} placeholder="문의 내용 (선택)" className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-watcha resize-none" />
+                  <textarea name="message" rows={4} placeholder="문의 내용 (선택)" value={inquiry} onChange={(e) => setInquiry(e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-watcha resize-none" />
                   <button type="submit" className="w-full bg-watcha hover:bg-watcha-dark text-white font-semibold py-4 rounded-xl text-lg transition-colors">
                     문의 보내기
                   </button>
