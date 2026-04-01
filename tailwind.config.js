@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         watcha: '#FF2D78',
         'watcha-dark': '#E0225F',
-        pedia: '#4A90D9',
+        pedia: '#FF2D78',
       },
     },
   },

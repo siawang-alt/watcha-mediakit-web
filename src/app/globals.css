@@ -41,20 +41,48 @@ body {
   font-family: 'WATCHA Sans', 'Pretendard Variable', 'Pretendard', -apple-system, system-ui, sans-serif;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Scroll reveal - opacity only, no layout shift */
+.reveal {
+  opacity: 1;
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
+.stagger {
+  /* no animation to prevent overlap */
 }
 
-@keyframes countUp {
-  from { opacity: 0; transform: scale(0.5); }
-  to { opacity: 1; transform: scale(1); }
+/* Hero glow pulse */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.05); }
 }
 
-.animate-count {
-  animation: countUp 0.6s ease-out forwards;
+.glow-pulse {
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+/* Scroll indicator bounce */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #FF2D78 0%, #FF6B9D 50%, #FF2D78 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Divider line */
+.section-divider {
+  width: 60px;
+  height: 4px;
+  background: #FF2D78;
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
 }

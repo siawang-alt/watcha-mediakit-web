@@ -15,7 +15,7 @@ export const watchaProducts: Product[] = [
   {
     name: '스플래시',
     description: '앱 실행 시 진입 화면에 단독 노출되어 유저 주목도가 높으며, 브랜드 인지도를 높이는 데 적합합니다.',
-    image: '/watcha-mediakit-web/images/watcha_splash.png',
+    image: '/watcha-mediakit-web/images/watcha_splash.webp',
     impressions: '약 50만',
     ctr: '-',
     location: '앱 진입 시 전체화면(풀) 또는 하단(파셜)',
@@ -27,7 +27,7 @@ export const watchaProducts: Product[] = [
   {
     name: '보드 배너',
     description: '앱, 웹 총 4개 지면 내 First View에 보드 형태로 노출되어 우수한 노출량을 기록합니다.',
-    image: '/watcha-mediakit-web/images/watcha_board.png',
+    image: '/watcha-mediakit-web/images/watcha_board.webp',
     impressions: '약 200만',
     ctr: '약 0.21%',
     location: '홈 / 개봉관 / 웹툰 / 콘텐츠 상세',
@@ -39,7 +39,7 @@ export const watchaProducts: Product[] = [
   {
     name: '전면 팝업 배너',
     description: '앱, 웹 진입 시 팝업 형태로 노출되며 높은 유저 주목도를 바탕으로 클릭 효과를 극대화합니다.',
-    image: '/watcha-mediakit-web/images/watcha_popup.png',
+    image: '/watcha-mediakit-web/images/watcha_popup.webp',
     impressions: '약 45만',
     ctr: '약 2.1%',
     location: '앱, 웹 진입 시 전면 팝업',
@@ -54,7 +54,7 @@ export const pediaProducts: Product[] = [
   {
     name: '전면 팝업 배너',
     description: '앱, 웹 진입 시 팝업 형태로 노출. 높은 유저 주목도를 바탕으로 클릭 효과를 극대화.',
-    image: '/watcha-mediakit-web/images/pedia_popup.png',
+    image: '/watcha-mediakit-web/images/pedia_popup.webp',
     impressions: '약 60만',
     ctr: '약 2.9%',
     location: '앱, 웹 진입 시 전면 팝업',
@@ -66,7 +66,7 @@ export const pediaProducts: Product[] = [
   {
     name: '빅배너',
     description: '홈 화면 및 왓챠피디아 세상 페이지에 위치. 가장 유입이 많은 페이지에 노출.',
-    image: '/watcha-mediakit-web/images/pedia_big.png',
+    image: '/watcha-mediakit-web/images/pedia_big.webp',
     impressions: '약 150만',
     ctr: '약 0.24%',
     location: '메인 홈 / 왓챠피디아 세상',
@@ -78,7 +78,7 @@ export const pediaProducts: Product[] = [
   {
     name: '롤링 배너',
     description: '홈 롤링 1지면에 노출되며 3초 뒤 다른 구좌로 전환. 주목도가 높은 영역.',
-    image: '/watcha-mediakit-web/images/pedia_rolling.png',
+    image: '/watcha-mediakit-web/images/pedia_rolling.webp',
     impressions: '약 70만',
     ctr: '약 0.6%',
     location: '메인 홈 화면 롤링 배너 1지면',
@@ -90,7 +90,7 @@ export const pediaProducts: Product[] = [
   {
     name: '보드 배너',
     description: '앱, 웹 총 6개 지면 내 First View에 보드 형태로 노출되어 우수한 노출량을 기록.',
-    image: '/watcha-mediakit-web/images/pedia_board.png',
+    image: '/watcha-mediakit-web/images/pedia_board.webp',
     impressions: '약 500만',
     ctr: '약 0.12%',
     location: '홈 외 6개 지면',
@@ -102,7 +102,7 @@ export const pediaProducts: Product[] = [
   {
     name: '랭킹 HOT 배너',
     description: '왓챠피디아 HOT 랭킹 탭 2순위 위치에 노출. 포스터 클릭 시 아웃랜딩 유도.',
-    image: '/watcha-mediakit-web/images/pedia_ranking.png',
+    image: '/watcha-mediakit-web/images/pedia_ranking.webp',
     impressions: '약 45만',
     ctr: '약 1%',
     location: 'HOT 랭킹 2순위 위치',
@@ -114,7 +114,7 @@ export const pediaProducts: Product[] = [
   {
     name: '스플래시',
     description: '앱 실행 시 진입 화면에 단독 노출. 브랜드 인지도를 높이는 데 적합.',
-    image: '/watcha-mediakit-web/images/pedia_splash.png',
+    image: '/watcha-mediakit-web/images/pedia_splash.webp',
     impressions: '약 50만',
     ctr: '-',
     location: '앱 진입 시 전체화면 또는 하단',
@@ -126,7 +126,7 @@ export const pediaProducts: Product[] = [
   {
     name: '유저 참여 이벤트',
     description: '유저 참여 이벤트 집행 가능. 전면 팝업 배너 3일 포함으로 인지도 극대화.',
-    image: '/watcha-mediakit-web/images/pedia_event.png',
+    image: '/watcha-mediakit-web/images/pedia_event.webp',
     impressions: '약 20만',
     ctr: '약 5,000명 참여',
     location: '이벤트 탭 1주 + 전면 팝업 3일',
@@ -138,7 +138,7 @@ export const pediaProducts: Product[] = [
   {
     name: '전용관 페이지',
     description: '메인 홈 핫 아이템에 노출. 클릭 시 왓챠피디아에서 구축한 전용관 페이지로 랜딩.',
-    image: '/watcha-mediakit-web/images/pedia_exclusive.png',
+    image: '/watcha-mediakit-web/images/pedia_exclusive.webp',
     impressions: '-',
     ctr: '-',
     location: '홈 핫 아이템 → 전용관 페이지',
