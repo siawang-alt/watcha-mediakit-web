@@ -67,7 +67,7 @@ function ProductModal({ product, accent, onClose, onInquiry }: { product: Produc
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" onClick={onClose}>
       <div className="fixed inset-0 bg-black/70 backdrop-blur-md" />
-      <div className="relative z-[10000] bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto overscroll-contain shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div role="dialog" aria-modal="true" aria-label={product.name} className="relative z-[10000] bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto overscroll-contain shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition-colors">
           <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
@@ -157,6 +157,7 @@ function FaqItem({ question, answer, index }: { question: string; answer: string
     <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-3">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
         className="w-full flex items-center justify-between p-5 text-left hover:bg-gray-50 transition-colors"
       >
         <div className="flex items-center gap-4">
@@ -234,10 +235,10 @@ export default function Home() {
   return (
     <>
       {/* ── Header ── */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-lg shadow-sm h-16' : 'bg-transparent h-20'}`}>
+      <header role="banner" className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-lg shadow-sm h-16' : 'bg-transparent h-20'}`}>
         <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-          <Image src={scrolled ? '/watcha-mediakit-web/images/watcha_logo.png' : '/watcha-mediakit-web/images/watcha_logo_white.png'} alt="WATCHA" width={120} height={28} className="h-7 w-auto" />
-          <nav className="hidden md:flex items-center gap-8">
+          <Image src={scrolled ? '/watcha-mediakit-web/images/watcha_logo.png' : '/watcha-mediakit-web/images/watcha_logo_white.png'} alt="WATCHA 로고" width={120} height={28} className="h-7 w-auto" />
+          <nav aria-label="메인 메뉴" className="hidden md:flex items-center gap-8">
             {[
               ['플랫폼 소개', '#platform'],
               ['왓챠 광고', '#watcha'],
@@ -292,7 +293,7 @@ export default function Home() {
               { end: 1000, suffix: '만+', label: '전체 가입자' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-3xl md:text-5xl font-black gradient-text mb-1">
+                <div className="text-2xl md:text-4xl font-black gradient-text mb-1 whitespace-nowrap">
                   {stat.isDecimal ? <>{stat.end}{stat.suffix}</> : <Counter end={stat.end} suffix={stat.suffix} />}
                 </div>
                 <div className="text-gray-500 text-xs md:text-sm tracking-wide">{stat.label}</div>
@@ -314,6 +315,7 @@ export default function Home() {
         </div>
       </section>
 
+      <main>
       {/* ── Platform Compare ── */}
       <section id="platform" className="py-28 bg-white">
         <div className="max-w-6xl mx-auto px-6">
@@ -450,27 +452,36 @@ export default function Home() {
 
             <div className="md:col-span-2 flex flex-col justify-center">
               <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 space-y-8">
-                {[
-                  { icon: '📧', label: '이메일', value: 'ad_sales@watcha.com' },
-                  { icon: '📱', label: '전화', value: '010-5033-9698' },
-                  { icon: '👤', label: '팀', value: 'WATCHA 광고사업팀' },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-center gap-4">
-                    <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg">{item.icon}</span>
-                    <div>
-                      <div className="text-gray-500 text-xs uppercase tracking-wider">{item.label}</div>
-                      <div className="text-white font-medium">{item.value}</div>
-                    </div>
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg">📧</span>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase tracking-wider">이메일</div>
+                    <a href="mailto:ad_sales@watcha.com" className="text-white font-medium hover:text-watcha transition-colors">ad_sales@watcha.com</a>
                   </div>
-                ))}
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg">📱</span>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase tracking-wider">전화</div>
+                    <a href="tel:+82-10-5033-9698" className="text-white font-medium hover:text-watcha transition-colors">010-5033-9698</a>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-lg">👤</span>
+                  <div>
+                    <div className="text-gray-500 text-xs uppercase tracking-wider">팀</div>
+                    <div className="text-white font-medium">WATCHA 광고사업팀</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      </main>
       {/* ── Footer ── */}
-      <footer className="bg-[#050508] py-10 border-t border-white/5">
+      <footer role="contentinfo" className="bg-[#050508] py-10 border-t border-white/5">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <Image src="/watcha-mediakit-web/images/watcha_logo.png" alt="WATCHA" width={100} height={24} className="h-5 w-auto opacity-60" />
           <span className="text-gray-700 text-sm">© 2026 WATCHA. 광고사업팀</span>
